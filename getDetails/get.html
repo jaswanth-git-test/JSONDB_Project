@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <link rel="stylesheet" href ="get.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"/>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="http://login2explore.com/jpdb/resources/js/0.0.3/jpdb-commons.js"></script>
+    
+</head>
+<body>
+    <div class="container">
+        <div class="m-3 text-center">
+          <h1 class="form-heading">Show Employee Details</h1>
+        </div>
+        
+  
+        <form id="myForm">
+          <div class="mb-3 w-25 ml-auto mr-auto">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" />
+            <p id="nameErrMsg" class="error-message"></p>
+          </div>
+          <div class="text-center">
+            <button type="button" class="btn btn-primary" onclick="showData()"> Submit </button>
+          </div>
+  
+         
+          
+          
+        </form>
+        <div class="m-3 text-center">
+                <p id="para"></p>
+        </div>
+  
+      </div>
+      <script src="http://login2explore.com/jpdb/resources/js/0.0.3/jpdb-commons.js"></script>
+      <script src="get.js"></script>
+      <script>
+          let paraEl = document.getElementById("para");
+          function reset(){
+                      document.getElementById("name").value = "";
+                      document.getElementById("name").focus();
+          }
+          function executeCommand(reqString, dbBaseUrl, apiEndPointUrl) {
+            var url = dbBaseUrl + apiEndPointUrl;
+            var jsonObj;
+            $.post(url, reqString, function (result) {
+                jsonObj = JSON.parse(result);
+            }).fail(function (result) {
+                var dataJsonObj = result.responseText;
+                jsonObj = JSON.parse(dataJsonObj);
+            });
+            return jsonObj;
+        }
+        function showData(){
+            let token = "90939194|-31949294105955873|90940403";
+            let dbname = "Employee";
+            let relationName = "Employee-Details";
+            let roll = document.getElementById("name").value;
+            var jsonStr = {
+                Name : roll
+            };
+            var reqString = createGETRequest(token, dbname, relationName, JSON.stringify(jsonStr));
+            alert(reqString);
+            jQuery.ajaxSetup({async: false});
+            var resultObj = executeCommand(reqString,
+                    "http://api.login2explore.com:5577", "/api/irl");
+            jQuery.ajaxSetup({async: true});
+            
+            var data = JSON.stringify(resultObj);
+            
+            let resRaw = JSON.parse(data);
+            let res = JSON.parse(resRaw.data)
+            let r =  `Name: ${res.Name} `+`   `+`Email: ${res.Email}  Mobile: ${res.Mobile}  Serial No: ${res.SerialNo}` ; 
+            console.log(r);
+            console.log(resRaw)
+            console.log(res)
+            paraEl.textContent = r;
+            reset();
+        }
+      </script>
+</body>
+</html>

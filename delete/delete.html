@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <link rel="stylesheet" href ="delete.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"/>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="http://login2explore.com/jpdb/resources/js/0.0.3/jpdb-commons.js"></script>
+    
+</head>
+<body>
+    <div class="container">
+        <div class="m-3 text-center">
+          <h1 class="form-heading">Delete Employee Details </h1>
+        </div>
+        
+  
+        <form id="myForm">
+          <div class="mb-3 w-25 ml-auto mr-auto">
+            <label for="name">Record No</label>
+            <input type="text" class="form-control" id="name" />
+            <p id="nameErrMsg" class="error-message"></p>
+          </div>
+          <div class="text-center">
+            <button type="button" class="btn btn-primary" onclick="deleteData()"> Submit </button>
+          </div>
+  
+         
+          
+          
+        </form>
+  
+      </div>
+      <script src="http://login2explore.com/jpdb/resources/js/0.0.3/jpdb-commons.js"></script>
+      <script src="delete.js"></script>
+      <script>
+          function reset(){
+                      document.getElementById("name").value = "";
+                      document.getElementById("name").focus();
+          }
+          function executeCommand(reqString, dbBaseUrl, apiEndPointUrl) {
+            var url = dbBaseUrl + apiEndPointUrl;
+            var jsonObj;
+            $.post(url, reqString, function (result) {
+                jsonObj = JSON.parse(result);
+            }).fail(function (result) {
+                var dataJsonObj = result.responseText;
+                jsonObj = JSON.parse(dataJsonObj);
+            });
+            return jsonObj;
+          }
+          function deleteData(){
+            let token = "90939194|-31949294105955873|90940403";
+            let dbname = "Employee";
+            let relationName = "Employee-Details";
+            let roll = parseInt(document.getElementById("name").value);
+
+            let reqStringRaw = {
+                                    "token": token,
+                                    "cmd": "REMOVE",
+                                    "dbName": "Employee",
+                                    "rel": "Employee-Details",
+                                    "record":roll,
+                                  "jsonStr":{}
+                                      
+
+                            }
+            
+            
+            let reqString = JSON.stringify(reqStringRaw);
+            alert(reqString);
+            jQuery.ajaxSetup({async: false});
+            var resultObj = executeCommand(reqString,
+                    "http://api.login2explore.com:5577", "/api/iml");
+            jQuery.ajaxSetup({async: true});
+            alert(JSON.stringify(resultObj));
+            reset();
+            
+          }
+      </script>
+</body>
+</html>

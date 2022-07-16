@@ -26,3 +26,8 @@
 ![Updae Employee Details](update.jpg)
 
 ![entry of employee shown in database](data-entry.jpg)
+
+### Functionalities:
+- Add the Employee details and save them in JSONDB
+- delete the details and update the details using the record number 
+- show the employee details by using name and render the results  below the form

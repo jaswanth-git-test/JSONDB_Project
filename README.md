@@ -3,7 +3,7 @@
 
 [Documentation Link](http://login2explore.com/jpdb/docs.html)
 
-## "This project is about using JsonDB  for sample CRUD operations." 
+## "This project is about using JsonPowerDB  for sample CRUD operations." 
 
 ### About JsonPowerDB:
 
@@ -28,6 +28,6 @@
 ![entry of employee shown in database](data-entry.jpg)
 
 ### Functionalities:
-- Add the Employee details and save them in JSONDB
+- Add the Employee details and save them in JsonPowerDB
 - delete the details and update the details using the record number 
 - show the employee details by using name and render the results  below the form
